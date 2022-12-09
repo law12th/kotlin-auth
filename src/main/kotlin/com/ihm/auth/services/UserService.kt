@@ -34,7 +34,6 @@ class UserService(
                 it.username,
                 it.email,
                 it.dateOfBirth,
-                it.password
             )
         }
     }
