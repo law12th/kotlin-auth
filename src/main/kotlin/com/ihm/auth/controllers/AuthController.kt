@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.Base64
 import java.util.Date
 
 @RestController
@@ -57,15 +58,12 @@ class AuthController(
         // time jsonwebtoken is valid for
         val expiryDate = Date(System.currentTimeMillis() + 60 * 24 * 1000) // 24 hours
 
-        // create jsonwebtoken
-        val jwt = Jwts.builder()
-            .setIssuer(issuer)
-            .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS256, jwtProperties.secret)
-            .compact()
+        val claims = HashMap<String, Any>()
+
+
 
         // create cookie with jsonwebtoken
-        val cookie = Cookie("jwt", jwt)
+        val cookie = Cookie("cookie", user.id.toString())
         cookie.isHttpOnly = true
 
         // add cookie to response
@@ -79,7 +77,7 @@ class AuthController(
         response: HttpServletResponse
     ): ResponseEntity<Any> {
         // create cookie with empty value (this signifies that the user is logged out)
-        val cookie = Cookie("jwt", "")
+        val cookie = Cookie("cookie", "")
         cookie.isHttpOnly = true
 
         // add cookie to response

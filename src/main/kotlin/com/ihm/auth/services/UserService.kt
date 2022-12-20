@@ -43,6 +43,6 @@ class UserService(
     }
 
     fun findById(id: Int): User? {
-        return this.userRepository.findById(id).orElse(null)
+        return userRepository.findById(id).orElse(null)
     }
 }
